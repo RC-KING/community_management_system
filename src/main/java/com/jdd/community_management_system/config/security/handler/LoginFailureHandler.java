@@ -2,7 +2,7 @@ package com.jdd.community_management_system.config.security.handler;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.jdd.community_management_system.config.security.exception.CustomAuthorizationException;
+import com.jdd.community_management_system.config.security.exception.CustomerAuthenticationException;
 import com.jdd.community_management_system.config.security.exception.ImageException;
 import com.jdd.community_management_system.utils.result_data.ResultVo;
 import org.springframework.security.authentication.*;
@@ -19,6 +19,9 @@ import java.nio.charset.StandardCharsets;
 
 @Component("loginFailureHandler")
 public class LoginFailureHandler implements AuthenticationFailureHandler {
+
+
+  // 对 onAuthenticationFailure异常的重写,这个异常在CheckTokenFilter中提到过
   @Override
   public void onAuthenticationFailure(
       HttpServletRequest httpServletRequest,
@@ -42,19 +45,18 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
       str = "账户被锁，登录失败!";
     } else if (e instanceof InternalAuthenticationServiceException) {
       str = "账户不存在，登录失败!";
-    } else if (e instanceof CustomAuthorizationException) {
+    } else if (e instanceof CustomerAuthenticationException) {
       // token验证失败
       code = 600;
       str = e.getMessage();
     } else if (e instanceof ImageException) {
       str = e.getMessage();
     } else {
-
-      str = "登录失败!";
+      str = "未知原因,登录失败!";
     }
-    String res =
-        JSONObject.toJSONString(
-            new ResultVo(str, code, null), SerializerFeature.DisableCircularReferenceDetect);
+    String res = JSONObject.toJSONString(
+            new ResultVo(str, code, null),
+                SerializerFeature.DisableCircularReferenceDetect);
     out.write(res.getBytes(StandardCharsets.UTF_8));
     out.flush();
     out.close();

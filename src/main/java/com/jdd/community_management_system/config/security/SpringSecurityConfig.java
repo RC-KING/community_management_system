@@ -1,11 +1,13 @@
 package com.jdd.community_management_system.config.security;
 
 import com.jdd.community_management_system.config.security.detailservice.CustomerUserDetailsService;
+import com.jdd.community_management_system.config.security.filter.CheckTokenFilter;
 import com.jdd.community_management_system.config.security.handler.CustomAuthenticationEntryPoint;
 import com.jdd.community_management_system.config.security.handler.LoginFailureHandler;
 import com.jdd.community_management_system.config.security.handler.LoginSuccessHandler;
 import com.jdd.community_management_system.config.security.handler.MyCustomAccessDenyHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
 
 @Configuration
@@ -30,8 +33,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
   // 认证用户访问无权限资源时处理器
   @Autowired private MyCustomAccessDenyHandler CustomAccessDeniedHandler;
-  // 请求拦截器处理token
-  // @Autowired private CheckTokenFilter checkTokenFilter;
+  //请求拦截器处理token
+  @Autowired private CheckTokenFilter checkTokenFilter;
+
+  @Value("${permitUrl.loginUrl}") private String loginUrl;
+  @Value("${permitUrl.imageCodeUrl}") private String imageCodeUrl;
+  @Value("${permitUrl.registerUrl}") private String registerUrl;
 
   // 加密/解密工具
   @Bean
@@ -47,8 +54,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
 
-
-    // http.addFilterBefore(checkTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    // 在SpringSecurity的UsernamePasswordAuthenticationFilter执行之前进行Token验证
+    http.addFilterBefore(checkTokenFilter, UsernamePasswordAuthenticationFilter.class);
     http // 禁用csrf防御机制(跨域请求伪造)，这么做在测试和开发会比较方便。
         .csrf()
         .disable()
@@ -66,7 +73,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .formLogin()
         // 登录请求的地址(不需要写在controller中,SpringSecurity中会处理这个请求地址,进行自己的用户认证)
-        .loginProcessingUrl("/api/sys_user/login")
+        .loginProcessingUrl(loginUrl)
         // 自定义的登录验证成功或失败后的去向
         .successHandler(loginSuccessHandler)
         .failureHandler(loginFailureHandler)
@@ -77,7 +84,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .authorizeRequests()
         // 放行路径
-        .antMatchers("/api/sys_user/login","/api/sys_user/register", "/api/sys_user/image","/api/**")
+        .antMatchers(loginUrl, registerUrl,imageCodeUrl,"/api/**")
         .permitAll()
         // 大多都是swagger的资源
         .antMatchers(

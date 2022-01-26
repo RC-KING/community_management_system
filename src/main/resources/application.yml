@@ -26,10 +26,12 @@ jwt:
   secret: com.jdd.jxx
   #30分钟过期
   expiration: 1800000
-#登录请求配置
-#itmk:
-#  loginUrl: /api/user/login
-#  imageCodeUrl: /api/sysUser/image
+# 放行的Url
+permitUrl:
+  loginUrl: /api/sys_user/login
+  registerUrl: /api/sys_user/register
+  imageCodeUrl: /api/sys_user/image
+
 #logging:
 #  pattern:
 #    console: '%d{yyyy-MM-dd} [%thread] %-5level %logger- %msg%n'
