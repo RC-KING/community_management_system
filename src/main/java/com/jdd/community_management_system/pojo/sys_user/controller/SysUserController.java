@@ -7,6 +7,7 @@ import com.jdd.community_management_system.utils.result_data.ResultUtils;
 import com.jdd.community_management_system.utils.result_data.ResultVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class SysUserController {
         if(sysUserService.save(user)){
             return ResultUtils.success("新增用户成功!",user);
         }else {
-            return ResultUtils.success("新增用户失败!",user);
+            return ResultUtils.error("新增用户失败!",user);
         }
     }
 
@@ -41,7 +42,7 @@ public class SysUserController {
         if(sysUserService.removeById(id)){
             return ResultUtils.success("删除用户成功!",id);
         }else {
-            return ResultUtils.success("删除用户失败!",id);
+            return ResultUtils.error("删除用户失败!",id);
         }
     }
 
@@ -56,7 +57,7 @@ public class SysUserController {
         if(sysUserService.updateById(user)){
             return ResultUtils.success("更新用户成功!",user);
         }else {
-            return ResultUtils.success("更新用户失败!",user);
+            return ResultUtils.error("更新用户失败!",user);
         }
     }
 
@@ -67,8 +68,30 @@ public class SysUserController {
         if(list.size()!=0){
             return ResultUtils.success("获取所有用户成功!",list);
         }else {
-            return ResultUtils.success("获取所有用户失败!",list);
+            return ResultUtils.error("获取所有用户失败!",list);
         }
     }
+//////////////////////////////////////////////////////////////////////////////////
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+    @PostMapping("/register")
+    @ApiOperation("用户注册")
+    public ResultVo sysUserRegister(@RequestBody SysUser user){
+        // 1.判断用户名是否重复
+        SysUser user1 = sysUserService.getUserByUsername(user.getUsername());
+        if(user1!=null){return ResultUtils.error("已存在该用户,请使用其他用户名注册!");}
+        // 2.密码加密
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if(sysUserService.save(user)){
+            return ResultUtils.success("注册成功!",user);
+        }else {
+            return ResultUtils.error("注册失败!",user);
+        }
+    }
+
+
+
 }
 

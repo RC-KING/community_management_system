@@ -6,9 +6,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -24,7 +27,7 @@ import java.util.Date;
 @Accessors(chain = true)
 @TableName("t_sys_user")
 @ApiModel(value="SysUser对象", description="用户")
-public class SysUser implements Serializable {
+public class SysUser implements Serializable, UserDetails {
 
 private static final long serialVersionUID=1L;
 
@@ -126,13 +129,10 @@ private static final long serialVersionUID=1L;
     private boolean isCredentialsNonExpired =true;
 
     @ApiModelProperty(value = "帐户是否可用;(1 可用，0不可用)SpringSecurity字段")
-    private boolean isEnable =true;
+    private boolean isEnabled =true;
 
     @ApiModelProperty(value = "管理员")
     private boolean isAdmin =false ;
-    // 由于authorities不是数据库里面的字段，所以要排除他，不然mybatis-plus找不到该字段会报错
-//    @TableField(exist = false)
-//    Collection<? extends GrantedAuthority> authorities;
 
     @ApiModelProperty(value = "逻辑删除")
     private Integer isDeleted;
@@ -149,4 +149,7 @@ private static final long serialVersionUID=1L;
     @ApiModelProperty(value = "更新时间")
     private Date updatedTime;
 
+    //由于authorities不是数据库里面的字段，所以要排除他，不然mybatis-plus找不到该字段会报错
+    @TableField(exist = false)
+    Collection<? extends GrantedAuthority> authorities;
 }

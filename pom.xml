@@ -39,6 +39,15 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.25</version>
         </dependency>
+        <!-- spring security 启动器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+
+
+
 <!--        &lt;!&ndash;druid连接池&ndash;&gt;-->
 <!--        <dependency>-->
 <!--            <groupId>com.alibaba</groupId>-->
@@ -46,11 +55,7 @@
 <!--            <version>1.1.22</version>-->
 <!--        </dependency>-->
 
-<!--        &lt;!&ndash; spring security 启动器&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-security</artifactId>-->
-<!--        </dependency>-->
+
 
 
         <!-- mybatis-plus依赖, 可以代替mybatis -->

@@ -13,5 +13,5 @@ import com.jdd.community_management_system.pojo.sys_user.entity.SysUser;
  */
 
 public interface SysUserService extends IService<SysUser> {
-
+    SysUser getUserByUsername(String username);
 }

@@ -1,5 +1,6 @@
 package com.jdd.community_management_system.pojo.sys_user.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jdd.community_management_system.pojo.sys_user.entity.SysUser;
 import com.jdd.community_management_system.pojo.sys_user.mapper.SysUserMapper;
@@ -19,4 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
+    @Override
+    public SysUser getUserByUsername(String username) {
+        QueryWrapper<SysUser> sysUserQueryWrapper = new QueryWrapper<>();
+        sysUserQueryWrapper.eq("username", username);
+        return this.baseMapper.selectOne(sysUserQueryWrapper);
+    }
 }
