@@ -20,11 +20,11 @@ mybatis-plus:
   configuration:
     # 使用默认的控制台输出
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-##jwt配置
-#jwt:
-#  secret: com.itmk
-#  #30分钟过期
-#  expiration: 1800000
+#jwt配置
+jwt:
+  secret: com.jdd.jxx
+  #30分钟过期
+  expiration: 1800000
 #登录请求配置
 #itmk:
 #  loginUrl: /api/user/login
