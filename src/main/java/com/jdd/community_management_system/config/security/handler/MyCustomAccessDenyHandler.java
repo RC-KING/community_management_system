@@ -28,7 +28,7 @@ public class MyCustomAccessDenyHandler implements AccessDeniedHandler {
     ServletOutputStream out = httpServletResponse.getOutputStream();
     String res =
         JSONObject.toJSONString(
-            new ResultVo<>("无权限访问,请联系管理员！", 403, null),
+            new ResultVo<>("无权限访问,请联系管理员！", 700, null),
             SerializerFeature.DisableCircularReferenceDetect);
     out.write(res.getBytes(StandardCharsets.UTF_8));
     out.flush();

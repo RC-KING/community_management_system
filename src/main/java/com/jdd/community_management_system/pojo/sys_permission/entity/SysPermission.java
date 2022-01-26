@@ -1,6 +1,7 @@
 package com.jdd.community_management_system.pojo.sys_permission.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -8,7 +9,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -33,6 +36,9 @@ public class SysPermission implements Serializable {
 
     @ApiModelProperty(value = "父权限ID")
     private Long parentId;
+
+    @ApiModelProperty(value = "父权限名称(冗余字段)")
+    private String parentLabel;
 
     @ApiModelProperty(value = "权限名称")
     private String label;
@@ -75,6 +81,18 @@ public class SysPermission implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间")
     private Date updatedTime;
+
+    //菜单的子级
+    //实体类与json互转的时候 属性值为null的不参与序列化
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @TableField(exist = false)
+    private List<SysPermission> children = new ArrayList<>();
+    //用于前端判断是菜单 、目录 、按钮
+    @TableField(exist = false)
+    private String value;
+    //该字段为非表字段
+    @TableField(exist = false)
+    private Boolean open;
 
 
 }

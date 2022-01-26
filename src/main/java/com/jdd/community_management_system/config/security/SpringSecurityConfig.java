@@ -1,6 +1,6 @@
 package com.jdd.community_management_system.config.security;
 
-import com.jdd.community_management_system.config.security.detailservice.CustomUserDetailsService;
+import com.jdd.community_management_system.config.security.detailservice.CustomerUserDetailsService;
 import com.jdd.community_management_system.config.security.handler.CustomAuthenticationEntryPoint;
 import com.jdd.community_management_system.config.security.handler.LoginFailureHandler;
 import com.jdd.community_management_system.config.security.handler.LoginSuccessHandler;
@@ -21,7 +21,7 @@ import org.springframework.web.cors.CorsUtils;
 @EnableWebSecurity // 启用Spring Security
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
   // 自定义UserDetailsService 用于认证和授权
-  @Autowired private CustomUserDetailsService customUserDetailsService;
+  @Autowired private CustomerUserDetailsService customUserDetailsService;
   // 登录成功之后的处理器
   @Autowired private LoginSuccessHandler loginSuccessHandler;
   // 登录失败之后的处理器
@@ -46,6 +46,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
    */
   @Override
   protected void configure(HttpSecurity http) throws Exception {
+
+
     // http.addFilterBefore(checkTokenFilter, UsernamePasswordAuthenticationFilter.class);
     http // 禁用csrf防御机制(跨域请求伪造)，这么做在测试和开发会比较方便。
         .csrf()
@@ -75,7 +77,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .authorizeRequests()
         // 放行路径
-        .antMatchers("/api/sys_user/login","/api/sys_user/register", "/api/sys_user/image")
+        .antMatchers("/api/sys_user/login","/api/sys_user/register", "/api/sys_user/image","/api/**")
         .permitAll()
         // 大多都是swagger的资源
         .antMatchers(
@@ -115,4 +117,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     // 自定义认证类设置
     auth.userDetailsService(customUserDetailsService);
   }
+
+
+
+
 }

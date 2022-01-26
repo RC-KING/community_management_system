@@ -1,6 +1,7 @@
 package com.jdd.community_management_system.pojo.sys_user.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.jdd.community_management_system.pojo.sys_permission.entity.SysPermission;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -152,4 +154,9 @@ private static final long serialVersionUID=1L;
     //由于authorities不是数据库里面的字段，所以要排除他，不然mybatis-plus找不到该字段会报错
     @TableField(exist = false)
     Collection<? extends GrantedAuthority> authorities;
+
+    //用户权限列表,不属于用户表字段，需要排除
+    @TableField(exist = false)
+    List<SysPermission> permissionList;
+
 }

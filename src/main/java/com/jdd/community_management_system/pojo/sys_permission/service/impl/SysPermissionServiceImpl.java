@@ -7,6 +7,8 @@ import com.jdd.community_management_system.pojo.sys_permission.service.SysPermis
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * <p>
  * 权限 服务实现类
@@ -18,5 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements SysPermissionService {
+    @Override
+    public List<SysPermission> getPermissionListByUserId(Long userId) {
+        return this.baseMapper.getPermissionListByUserId(userId);
+    }
 
+    @Override
+    public List<SysPermission> getPermissionListByRoleId(Long roleId) {
+        return this.baseMapper.getPermissionListByRoleId(roleId);
+    }
 }

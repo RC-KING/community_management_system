@@ -20,6 +20,7 @@ mybatis-plus:
   configuration:
     # 使用默认的控制台输出
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:**/mapper/xml/*.xml
 #jwt配置
 jwt:
   secret: com.jdd.jxx
