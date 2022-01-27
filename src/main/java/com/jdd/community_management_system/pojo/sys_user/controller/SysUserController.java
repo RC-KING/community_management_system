@@ -3,10 +3,12 @@ package com.jdd.community_management_system.pojo.sys_user.controller;
 
 import com.jdd.community_management_system.pojo.sys_user.entity.SysUser;
 import com.jdd.community_management_system.pojo.sys_user.service.impl.SysUserServiceImpl;
+import com.jdd.community_management_system.utils.redis.RedisService;
 import com.jdd.community_management_system.utils.result_data.ResultUtils;
 import com.jdd.community_management_system.utils.result_data.ResultVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -89,6 +91,20 @@ public class SysUserController {
         }else {
             return ResultUtils.error("注册失败!",user);
         }
+    }
+
+
+    @Autowired
+    private RedisService redisService;
+    @Autowired
+    private RedisTemplate<String,Object> redisTemplate;
+
+    @GetMapping("/test_redis")
+    public ResultVo getAllUser(){
+        redisService.set("name", "张三",60L);
+        String name = redisService.get("name");
+        List<SysUser> list = sysUserService.list();
+        return new ResultVo("成功",200,name);
     }
 
 
