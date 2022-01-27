@@ -50,19 +50,6 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.0</version>
         </dependency>
-
-
-
-<!--        &lt;!&ndash;druid连接池&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba</groupId>-->
-<!--            <artifactId>druid-spring-boot-starter</artifactId>-->
-<!--            <version>1.1.22</version>-->
-<!--        </dependency>-->
-
-
-
-
         <!-- mybatis-plus依赖, 可以代替mybatis -->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -99,17 +86,15 @@
             <scope>compile</scope>
             <version>1.18.22</version>
         </dependency>
-        <!-- swagger2 -->
+
+        <!-- swagger api文档 -->
         <dependency>
             <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
-        </dependency>
+
+
 
         <!-- 工具类依赖 -->
         <dependency>
@@ -123,8 +108,15 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>2.4.4</version>
         </dependency>
+        <!--图片验证码-->
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>2.3.2</version>
+        </dependency>
 
-<!--        <dependency>-->
+
+        <!--        <dependency>-->
 <!--            <groupId>commons-lang</groupId>-->
 <!--            <artifactId>commons-lang</artifactId>-->
 <!--            <version>2.6</version>-->
@@ -136,12 +128,7 @@
 <!--        </dependency>-->
 <!--        &lt;!&ndash;采用redis来管理&ndash;&gt;-->
 
-        <!-- swagger api文档 -->
-<!--        <dependency>-->
-<!--            <groupId>io.springfox</groupId>-->
-<!--            <artifactId>springfox-boot-starter</artifactId>-->
-<!--            <version>3.0.0</version>-->
-<!--        </dependency>-->
+
 
     </dependencies>
     <build>

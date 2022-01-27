@@ -3,7 +3,7 @@ package com.jdd.community_management_system.config.security.handler;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.jdd.community_management_system.config.security.exception.CustomerAuthenticationException;
-import com.jdd.community_management_system.config.security.exception.ImageException;
+import com.jdd.community_management_system.config.security.exception.ImageCodeException;
 import com.jdd.community_management_system.utils.result_data.ResultVo;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
@@ -49,7 +49,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
       // token验证失败
       code = 600;
       str = e.getMessage();
-    } else if (e instanceof ImageException) {
+    } else if (e instanceof ImageCodeException) {
       str = e.getMessage();
     } else {
       str = "未知原因,登录失败!";

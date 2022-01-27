@@ -84,7 +84,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .authorizeRequests()
         // 放行路径
-        .antMatchers(loginUrl, registerUrl,imageCodeUrl,"/api/**")
+        .antMatchers(loginUrl, registerUrl, imageCodeUrl, "/api/**")
         .permitAll()
         // 大多都是swagger的资源
         .antMatchers(
@@ -107,6 +107,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-resources",
             "/swagger-resources/configuration/security",
             "/swagger-ui.html",
+            "/swagger-ui/index.html",
             "/webjars/**")
         .permitAll()
         // 其他任何请求都需要权限

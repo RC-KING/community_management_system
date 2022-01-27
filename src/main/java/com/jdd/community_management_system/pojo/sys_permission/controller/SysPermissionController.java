@@ -91,6 +91,7 @@ public class SysPermissionController {
 
         }
     }
+
     @GetMapping("/sys_role/{roleId}")
     @ApiOperation("根据角色ID查询,该角色拥有的资源")
     public ResultVo getSysPermissionListBySysRoleId(@PathVariable Long roleId){
@@ -110,7 +111,5 @@ public class SysPermissionController {
 
 
 
-
-
-    }
+}
 
