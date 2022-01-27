@@ -2,7 +2,7 @@ package com.jdd.community_management_system.config.security.handler;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.jdd.community_management_system.utils.result_data.ResultVo;
+import com.jdd.community_management_system.utils.dataUtils.ResultVo;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;

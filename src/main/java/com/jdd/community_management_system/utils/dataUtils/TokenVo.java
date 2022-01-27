@@ -1,4 +1,4 @@
-package com.jdd.community_management_system.utils.result_data;
+package com.jdd.community_management_system.utils.dataUtils;
 
 import lombok.Data;
 

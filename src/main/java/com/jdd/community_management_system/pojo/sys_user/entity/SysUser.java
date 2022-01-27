@@ -133,8 +133,9 @@ private static final long serialVersionUID=1L;
     @ApiModelProperty(value = "帐户是否可用;(1 可用，0不可用)SpringSecurity字段")
     private boolean isEnabled =true;
 
+
     @ApiModelProperty(value = "管理员")
-    private boolean isAdmin =false ;
+    private boolean isAdmin;
 
     @ApiModelProperty(value = "逻辑删除")
     private Integer isDeleted;
@@ -158,5 +159,7 @@ private static final long serialVersionUID=1L;
     //用户权限列表,不属于用户表字段，需要排除
     @TableField(exist = false)
     List<SysPermission> permissionList;
+
+
 
 }

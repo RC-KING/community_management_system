@@ -3,10 +3,12 @@ package com.jdd.community_management_system.pojo.sys_role.controller;
 
 import com.jdd.community_management_system.pojo.sys_role.entity.SysRole;
 import com.jdd.community_management_system.pojo.sys_role.service.impl.SysRoleServiceImpl;
-import com.jdd.community_management_system.utils.result_data.ResultUtils;
-import com.jdd.community_management_system.utils.result_data.ResultVo;
+import com.jdd.community_management_system.pojo.sys_user.entity.SysUser;
+import com.jdd.community_management_system.utils.dataUtils.ResultUtils;
+import com.jdd.community_management_system.utils.dataUtils.ResultVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +30,8 @@ public class SysRoleController {
     @PostMapping
     @ApiOperation("新增角色")
     public ResultVo addSysRole(@RequestBody SysRole role){
+        SysUser currentOperator = (SysUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        role.setCreateUserId(currentOperator.getId());
         if(sysRoleService.save(role)){
             return ResultUtils.success("新增角色成功!",role);
         }else {

@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.jdd.community_management_system.config.security.exception.CustomerAuthenticationException;
 import com.jdd.community_management_system.config.security.exception.ImageCodeException;
-import com.jdd.community_management_system.utils.result_data.ResultVo;
+import com.jdd.community_management_system.utils.dataUtils.ResultVo;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;

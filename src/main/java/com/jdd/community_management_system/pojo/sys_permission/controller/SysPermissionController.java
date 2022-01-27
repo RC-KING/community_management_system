@@ -3,8 +3,8 @@ package com.jdd.community_management_system.pojo.sys_permission.controller;
 
 import com.jdd.community_management_system.pojo.sys_permission.entity.SysPermission;
 import com.jdd.community_management_system.pojo.sys_permission.service.impl.SysPermissionServiceImpl;
-import com.jdd.community_management_system.utils.result_data.ResultUtils;
-import com.jdd.community_management_system.utils.result_data.ResultVo;
+import com.jdd.community_management_system.utils.dataUtils.ResultUtils;
+import com.jdd.community_management_system.utils.dataUtils.ResultVo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -74,6 +74,7 @@ public class SysPermissionController {
 
     //////////////////////////////////////////////////////////////////////////
 
+    // TODO:待测试
     @GetMapping("/sys_user/{userId}")
     @ApiOperation("根据用户ID查询,该用户拥有的资源")
     public ResultVo getSysPermissionListBySysUserId(@PathVariable Long userId){
@@ -91,7 +92,7 @@ public class SysPermissionController {
 
         }
     }
-
+    // TODO:待测试
     @GetMapping("/sys_role/{roleId}")
     @ApiOperation("根据角色ID查询,该角色拥有的资源")
     public ResultVo getSysPermissionListBySysRoleId(@PathVariable Long roleId){

@@ -2,13 +2,16 @@ package com.jdd.community_management_system.pojo.sys_user.controller;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.jdd.community_management_system.config.security.exception.CustomerAuthenticationException;
+import com.jdd.community_management_system.pojo.sys_permission.entity.SysPermission;
 import com.jdd.community_management_system.pojo.sys_user.entity.SysUser;
 import com.jdd.community_management_system.pojo.sys_user.service.impl.SysUserServiceImpl;
+import com.jdd.community_management_system.utils.dataUtils.ResultUtils;
+import com.jdd.community_management_system.utils.dataUtils.ResultVo;
+import com.jdd.community_management_system.utils.dataUtils.TokenVo;
+import com.jdd.community_management_system.utils.dataUtils.UserMenuVo;
 import com.jdd.community_management_system.utils.jwt.JwtUtils;
+import com.jdd.community_management_system.utils.permission_utils.MakeMenuTree;
 import com.jdd.community_management_system.utils.redis.RedisService;
-import com.jdd.community_management_system.utils.result_data.ResultUtils;
-import com.jdd.community_management_system.utils.result_data.ResultVo;
-import com.jdd.community_management_system.utils.result_data.TokenVo;
 import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -31,6 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 用户 前端控制器
@@ -217,4 +222,44 @@ public class SysUserController {
     vo.setExpireTime(expireTime);
     return ResultUtils.success("生成token成功!", vo);
   }
+
+
+
+  @ApiOperation(value = "获取当前用户的 菜单数据+权限数据+路由数据 ")
+  @GetMapping("/getPermissionList")
+  public ResultVo getPermissionList() {
+    // 用户相关的信息
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    // 获取用户信息
+    SysUser user = (SysUser) authentication.getPrincipal();
+    // 获取用户所有的权限信息(完整菜单数据)
+    List<SysPermission> permissionList = user.getPermissionList();
+    UserMenuVo vo = new UserMenuVo();
+    // 将 permissionList 中的 权限字段 提取出来
+    List<String> codeList = permissionList.stream()
+                    .filter(Objects::nonNull)
+                    .map(SysPermission::getCode)
+                    .collect(Collectors.toList());
+    vo.setAuthList(codeList);
+
+    // 获取菜单数据 type="2" 的都是按钮级别的,  type="0"和 type="1"的分别是目录和菜单
+    // 首先过滤一道,将空数据和按钮级别的权限给排除掉
+    List<SysPermission> menuList = permissionList.stream()
+                    .filter(item -> item != null && !item.getType().equals("2"))
+                    .collect(Collectors.toList());
+
+    // 将剩下的 一维数据转 换成 树 的格式
+    List<SysPermission> menus = MakeMenuTree.makeTree(menuList, 0L);
+    vo.setMenuList(menus);
+
+    // 获路由数据, 只有type="1"的时候,存放的才是页面链接,才有对应的组件路由地址,需要路由地址
+    List<SysPermission> routerList =
+            permissionList.stream()
+                    .filter(item -> item != null && item.getType().equals("1"))
+                    .collect(Collectors.toList());
+    vo.setRouterList(routerList);
+    return ResultUtils.success("成功", vo);
+  }
+  
+  
 }
