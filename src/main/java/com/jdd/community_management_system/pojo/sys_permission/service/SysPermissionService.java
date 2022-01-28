@@ -17,5 +17,7 @@ import java.util.List;
 public interface SysPermissionService extends IService<SysPermission> {
     List<SysPermission> getPermissionListByUserId(@Param("userId") Long userId);
     List<SysPermission> getPermissionListByRoleId(@Param("roleId") Long roleId);
+    List<SysPermission> getPermissionTree();
+    List<SysPermission> getParentPermissionTree();
 }
 

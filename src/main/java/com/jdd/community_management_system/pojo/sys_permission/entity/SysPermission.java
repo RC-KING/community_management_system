@@ -59,7 +59,7 @@ public class SysPermission implements Serializable {
     private Integer orderNum;
 
     @ApiModelProperty(value = "类型(0 目录 1菜单，2按钮)")
-    private Integer type;
+    private String type;
 
     @ApiModelProperty(value = "菜单图标")
     private String icon;
