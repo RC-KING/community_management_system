@@ -1,5 +1,6 @@
 package com.jdd.community_management_system.pojo.sys_user.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.jdd.community_management_system.config.security.exception.CustomerAuthenticationException;
 import com.jdd.community_management_system.pojo.sys_user.entity.SysUser;
@@ -8,6 +9,7 @@ import com.jdd.community_management_system.utils.dataUtils.ResultUtils;
 import com.jdd.community_management_system.utils.dataUtils.ResultVo;
 import com.jdd.community_management_system.utils.dataUtils.TokenVo;
 import com.jdd.community_management_system.utils.jwt.JwtUtils;
+import com.jdd.community_management_system.utils.log.annotation.SysLog;
 import com.jdd.community_management_system.utils.redis.RedisService;
 import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.ApiImplicitParam;
@@ -43,6 +45,7 @@ import java.util.List;
 public class SysUserController {
   @Autowired SysUserServiceImpl sysUserService;
 
+  @SysLog("新增用户")
   @PostMapping
   @ApiOperation("新增用户")
   public ResultVo addSysUser(@RequestBody SysUser user) {
@@ -53,6 +56,7 @@ public class SysUserController {
     }
   }
 
+  @SysLog("删除单个删除用户")
   @DeleteMapping("/{id}")
   @ApiOperation("根据ID,删除单个删除用户")
   public ResultVo delSysUser(@PathVariable Long id) {
@@ -63,13 +67,26 @@ public class SysUserController {
     }
   }
 
+  @SysLog("修改用户")
   @PatchMapping()
-  @ApiOperation("根据ID,修改用户")
+  @ApiOperation("修改用户")
   public ResultVo updateSysUser(@RequestBody SysUser user) {
+    // 更新前查看用户名是否在数据库中存在
+    SysUser userByUsername = sysUserService.getUserByUsername(user.getUsername());
+    if(userByUsername!=null){
+      //如果在数据中查得到这个用户,有两种可能:
+      //    一是用户更改了名字,和其他用户同名
+      //    二是用户没有更新名字查到的是自己,这个时候就需要user的ID来判断了
+      if(user.getId()!=userByUsername.getId()){
+        // 两者ID相等表示是同一个用户,表示可以进行继续的更新操作
+        // 否则表示用户修改了用户名,并且和其他用户冲突了
+        return ResultUtils.error("请使用其他用户名,更新用户失败!", user);
+      }
+    }
     // 查询乐观锁,首先得查询出来Version字段
-    Integer version = sysUserService.getById(user.getId()).getVersion();
+    SysUser DBGetUser = sysUserService.getById(user.getId());
     // 设置Version字段
-    user.setVersion(version);
+    user.setVersion(DBGetUser.getVersion());
     // 采取更新措施
     if (sysUserService.updateById(user)) {
       return ResultUtils.success("更新用户成功!", user);
@@ -78,6 +95,7 @@ public class SysUserController {
     }
   }
 
+  @SysLog("查询所有用户")
   @GetMapping
   @ApiOperation("查询所有用户")
   public ResultVo getAllSysUser() {
@@ -92,6 +110,7 @@ public class SysUserController {
 
   @Autowired PasswordEncoder passwordEncoder;
 
+  @SysLog("用户注册")
   @PostMapping("/register")
   @ApiOperation("用户注册")
   public ResultVo sysUserRegister(@RequestBody SysUser user) {
@@ -124,7 +143,7 @@ public class SysUserController {
   @Autowired private DefaultKaptcha defaultKaptcha;
 
   @ApiOperation("生成验证码")
-  @GetMapping("/image")
+  @PostMapping("/image")
   public void imageCode(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
     // 设置页面缓存方式(不缓存,不存储)
@@ -148,6 +167,7 @@ public class SysUserController {
     }
   }
 
+  @SysLog("退出登录")
   @ApiOperation("退出登录")
   @PostMapping("/login_out")
   public ResultVo loginOut(HttpServletRequest request, HttpServletResponse response)
@@ -176,6 +196,7 @@ public class SysUserController {
 
   @Autowired JwtUtils jwtUtils;
 
+  @SysLog("刷新token")
   @ApiOperation(value = "刷新token", notes = "刷新token")
   @ApiImplicitParams({@ApiImplicitParam(name = "token", value = "token")})
   @PostMapping(value = "/refreshToken")
@@ -220,6 +241,17 @@ public class SysUserController {
 
 
 
+  @SysLog(value = "根据部门Id获取用户列表")
+  @ApiOperation(value = "根据部门Id获取用户列表")
+  @ApiImplicitParams({@ApiImplicitParam(name = "deptId",required = true,value = "部门Id")})
+  @GetMapping("/list/{deptId}/{currentPage}/{pageSize}")
+  public ResultVo getTablesList(@PathVariable(value = "deptId") Long deptId,
+                                @PathVariable(value = "currentPage") Long currentPage,
+                                @PathVariable(value = "pageSize") Long pageSize){
+    IPage<SysUser> tablesList = sysUserService.getUserList(currentPage,pageSize,deptId);
+    System.out.println(tablesList.getTotal());
+    return ResultUtils.success("查询成功!",tablesList);
+  }
 
-  
+
 }

@@ -7,6 +7,7 @@ import com.jdd.community_management_system.pojo.sys_user.entity.SysUser;
 import com.jdd.community_management_system.utils.dataUtils.ResultUtils;
 import com.jdd.community_management_system.utils.dataUtils.ResultVo;
 import com.jdd.community_management_system.utils.dataUtils.UserMenuVo;
+import com.jdd.community_management_system.utils.log.annotation.SysLog;
 import com.jdd.community_management_system.utils.permission_utils.MakeMenuTree;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class SysPermissionController {
     @Autowired
     SysPermissionServiceImpl sysPermissionService;
 
+    @SysLog("新增资源")
     @PostMapping
     @ApiOperation("新增资源")
     public ResultVo addSysPermission(@RequestBody SysPermission permission){
@@ -43,6 +45,7 @@ public class SysPermissionController {
         }
     }
 
+    @SysLog("根据ID,删除单个删除资源")
     @DeleteMapping("/{id}")
     @ApiOperation("根据ID,删除单个删除资源")
     public ResultVo delSysPermission(@PathVariable Long id){
@@ -53,6 +56,7 @@ public class SysPermissionController {
         }
     }
 
+    @SysLog("根据ID,修改资源")
     @PatchMapping
     @ApiOperation("根据ID,修改资源")
     public ResultVo updateSysPermission(@RequestBody SysPermission permission){
@@ -68,6 +72,7 @@ public class SysPermissionController {
         }
     }
 
+    @SysLog("查询所有资源-获取的是一维数据")
     @GetMapping
     @ApiOperation("查询所有资源-获取的是一维数据")
     public ResultVo getAllSysPermission(){
@@ -81,6 +86,7 @@ public class SysPermissionController {
 
     //////////////////////////////////////////////////////////////////////////
 
+    @SysLog(value = "获取当前用户的 菜单数据+权限数据+路由数据 获取的是树形数据 ")
     @ApiOperation(value = "获取当前用户的 菜单数据+权限数据+路由数据 获取的是树形数据 ")
     @GetMapping("/getOperatorPermissionInfo")
     public ResultVo getPermissionList() {
@@ -116,6 +122,7 @@ public class SysPermissionController {
     }
 
 
+    @SysLog("查询所有资源-获取的是树形数据")
     @GetMapping("/getPermissionTree")
     @ApiOperation("查询所有资源-获取的是树形数据")
     public ResultVo getPermissionTree(){
@@ -126,6 +133,8 @@ public class SysPermissionController {
             return ResultUtils.error("获取树形资源数据失败!",list);
         }
     }
+
+    @SysLog("查询所有资源--去除按钮级别的树形资源数据")
     @GetMapping("/getParentPermissionTree")
     @ApiOperation("查询所有资源--去除按钮级别的树形资源数据")
     public ResultVo getParentPermissionTree(){
@@ -137,9 +146,7 @@ public class SysPermissionController {
         }
     }
 
-
-
-
+    @SysLog("根据用户ID查询,该用户拥有的资源")
     @GetMapping("/sys_user/{userId}")
     @ApiOperation("根据用户ID查询,该用户拥有的资源")
     public ResultVo getSysPermissionListBySysUserId(@PathVariable Long userId){
@@ -158,6 +165,7 @@ public class SysPermissionController {
         }
     }
 
+    @SysLog("根据角色ID查询,该角色拥有的资源")
     @GetMapping("/sys_role/{roleId}")
     @ApiOperation("根据角色ID查询,该角色拥有的资源")
     public ResultVo getSysPermissionListBySysRoleId(@PathVariable Long roleId){
@@ -174,8 +182,6 @@ public class SysPermissionController {
 
         }
     }
-
-
 
 }
 

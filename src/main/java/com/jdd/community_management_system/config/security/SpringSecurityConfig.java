@@ -62,7 +62,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         // 一个 .cors 就开启了 Spring Security 对 CORS 的支持。
         .cors()
         .and()
-        // 和iframe支持
+        // iframe支持
         .headers()
         .frameOptions()
         .disable()

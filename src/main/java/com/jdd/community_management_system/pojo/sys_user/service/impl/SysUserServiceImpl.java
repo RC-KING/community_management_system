@@ -1,6 +1,8 @@
 package com.jdd.community_management_system.pojo.sys_user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jdd.community_management_system.pojo.sys_user.entity.SysUser;
 import com.jdd.community_management_system.pojo.sys_user.mapper.SysUserMapper;
@@ -26,4 +28,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUserQueryWrapper.eq("username", username);
         return this.baseMapper.selectOne(sysUserQueryWrapper);
     }
+
+    @Override
+    public IPage<SysUser> getUserList(Long currentPage, Long pageSize, Long deptId) {
+        QueryWrapper<SysUser> query = new QueryWrapper<>();
+        query.lambda().eq(SysUser::getDeptId,deptId);
+        IPage<SysUser> page = new Page<>();
+        page.setCurrent(currentPage);
+        page.setSize(pageSize);
+        return this.baseMapper.selectPage(page,query);
+    }
+
+
 }

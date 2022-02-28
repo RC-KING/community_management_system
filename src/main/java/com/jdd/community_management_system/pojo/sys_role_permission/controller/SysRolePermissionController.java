@@ -3,6 +3,7 @@ package com.jdd.community_management_system.pojo.sys_role_permission.controller;
 
 import com.jdd.community_management_system.pojo.sys_role_permission.service.impl.SysRolePermissionServiceImpl;
 import com.jdd.community_management_system.utils.dataUtils.*;
+import com.jdd.community_management_system.utils.log.annotation.SysLog;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,7 @@ public class SysRolePermissionController {
     @Autowired
     SysRolePermissionServiceImpl sysRolePermissionService;
 
+    @SysLog(value = "给角色分配权限之前的获取树形权限数据")
     @ApiOperation(value = "给角色分配权限之前的获取树形权限数据")
     @GetMapping("/getAssignPermissionTree")
     @ApiImplicitParams({
@@ -36,7 +38,7 @@ public class SysRolePermissionController {
     }
 
 
-
+    @SysLog(value = "给角色分配权限--保存分配权限操作")
     @ApiOperation(value = "给角色分配权限--保存分配权限操作")
     @PostMapping("/roleAssignSave")
     @ApiImplicitParams({

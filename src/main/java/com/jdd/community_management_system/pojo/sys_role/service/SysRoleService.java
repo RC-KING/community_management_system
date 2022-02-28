@@ -1,7 +1,7 @@
 package com.jdd.community_management_system.pojo.sys_role.service;
 
-import com.jdd.community_management_system.pojo.sys_role.entity.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.jdd.community_management_system.pojo.sys_role.entity.SysRole;
 
 /**
  * <p>

@@ -39,18 +39,28 @@ private static final long serialVersionUID=1L;
 
     @ApiModelProperty(value = "所在专业ID")
     private Long majorId;
+    @TableField(exist = false)
+    private String majorName;
 
     @ApiModelProperty(value = "所在学院ID")
     private Long collegeId;
+    @TableField(exist = false)
+    private String collegeName;
 
     @ApiModelProperty(value = "所在班级ID")
     private Long classId;
+    @TableField(exist = false)
+    private String className;
 
     @ApiModelProperty(value = "所属部门ID")
     private Long deptId;
+    @TableField(exist = false)
+    private String deptName;
 
     @ApiModelProperty(value = "所属社团ID")
     private Long clubId;
+    @TableField(exist = false)
+    private String clubName;
 
     @ApiModelProperty(value = "昵称")
     private String nickName;

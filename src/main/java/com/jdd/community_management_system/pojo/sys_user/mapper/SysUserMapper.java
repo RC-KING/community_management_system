@@ -1,7 +1,7 @@
 package com.jdd.community_management_system.pojo.sys_user.mapper;
 
-import com.jdd.community_management_system.pojo.sys_user.entity.SysUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.jdd.community_management_system.pojo.sys_user.entity.SysUser;
 
 /**
  * <p>

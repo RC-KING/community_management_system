@@ -8,6 +8,7 @@ import com.jdd.community_management_system.pojo.sys_user_role.service.SysUserRol
 import com.jdd.community_management_system.utils.dataUtils.ResultUtils;
 import com.jdd.community_management_system.utils.dataUtils.ResultVo;
 import com.jdd.community_management_system.utils.dataUtils.RolePageParam;
+import com.jdd.community_management_system.utils.log.annotation.SysLog;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -29,6 +30,7 @@ public class SysUserRoleController {
     SysUserRoleService sysUserRoleService;
 
 
+    @SysLog(value = "获取用户拥有的角色")
     @ApiOperation(value = "获取用户拥有的角色")
     @GetMapping("/getRoleIdByUserId/{userId}")
     public ResultVo getRoleIdByUserId(@PathVariable(value = "userId") Long userId) {
@@ -36,6 +38,7 @@ public class SysUserRoleController {
         return ResultUtils.success("查询成功", userRole);
     }
 
+    @SysLog(value = "分配角色--保存")
     // @PreAuthorize("hasAuthority('sys:user:assign')")
     @ApiOperation(value = "分配角色--保存(设计为用户角色一对一)")
     @PostMapping("/assignRole")
@@ -47,9 +50,9 @@ public class SysUserRoleController {
         sysUserRoleService.assignRole(userRole);
         return ResultUtils.success("分配角色成功");
     }
-    /**
-     * 获取当前用户的角色列表
-     */
+
+
+    @SysLog(value = "分配角色--获取角色列表")
     @ApiOperation(value = "分配角色--获取角色列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "当前登录用户id", required = true),

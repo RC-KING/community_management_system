@@ -14,7 +14,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         .allowedMethods("*")
         .allowedHeaders("*")
             // 前端服务器的域名(允许跨域的域名,千万不要图方便写个"*",会报错!)
-        .allowedOrigins("http://localhost:3000")
+        .allowedOrigins("http://localhost:8080")
         .allowCredentials(true);
   }
 }
