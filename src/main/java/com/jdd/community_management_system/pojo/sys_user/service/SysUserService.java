@@ -16,6 +16,7 @@ import com.jdd.community_management_system.pojo.sys_user.entity.SysUser;
 public interface SysUserService extends IService<SysUser> {
     SysUser getUserByUsername(String username);
 
+
     // 根据部门id查询用户列表
     IPage<SysUser> getUserList(Long currentPage, Long pageSize, Long deptId);
 }
