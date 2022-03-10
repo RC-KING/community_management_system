@@ -32,6 +32,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public IPage<SysUser> getUserList(Long currentPage, Long pageSize, Long deptId) {
         QueryWrapper<SysUser> query = new QueryWrapper<>();
+        // TODO: 这个地方应当根据likeId查询,不然非叶子部门的人数就显示不出来
         query.lambda().eq(SysUser::getDeptId,deptId);
         IPage<SysUser> page = new Page<>();
         page.setCurrent(currentPage);

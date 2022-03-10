@@ -12,5 +12,4 @@ import com.jdd.community_management_system.pojo.sys_role.entity.SysRole;
  * @since 2022-01-25
  */
 public interface SysRoleService extends IService<SysRole> {
-
 }

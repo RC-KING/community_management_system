@@ -8,7 +8,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -27,7 +30,7 @@ public class SysRolePermissionController {
 
     @SysLog(value = "给角色分配权限之前的获取树形权限数据")
     @ApiOperation(value = "给角色分配权限之前的获取树形权限数据")
-    @GetMapping("/getAssignPermissionTree")
+    @PostMapping("/getAssignPermissionTree")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "用户id", required = true),
             @ApiImplicitParam(name = "roleId", value = "要分配权限的角色的id", required = true)

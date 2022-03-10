@@ -56,6 +56,7 @@ public class SysUserController {
     }
   }
 
+  // PathVariable传参的时候要注意前端传参的配置
   @SysLog("删除单个删除用户")
   @DeleteMapping("/{id}")
   @ApiOperation("根据ID,删除单个删除用户")
@@ -110,7 +111,6 @@ public class SysUserController {
 
   @Autowired PasswordEncoder passwordEncoder;
 
-  @SysLog("用户注册")
   @PostMapping("/register")
   @ApiOperation("用户注册")
   public ResultVo sysUserRegister(@RequestBody SysUser user) {
@@ -240,7 +240,7 @@ public class SysUserController {
   }
 
 
-
+  // 这样的路径传参格式,前端传入参数的时候需要注意,不能使用普通的get请求,会报错
   @SysLog(value = "根据部门Id获取用户列表")
   @ApiOperation(value = "根据部门Id获取用户列表")
   @ApiImplicitParams({@ApiImplicitParam(name = "deptId",required = true,value = "部门Id")})

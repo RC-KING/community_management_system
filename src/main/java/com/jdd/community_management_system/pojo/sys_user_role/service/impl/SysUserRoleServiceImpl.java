@@ -60,7 +60,6 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
         if (user==null) {
             throw new CustomerAuthenticationException("无法获取用户信息!");
         }
-
         QueryWrapper<SysRole> query = new QueryWrapper<>();
         // 根据角色名称(name)筛选查询
         if (StringUtils.isNotEmpty(rolePageParam.getName())) {
@@ -70,7 +69,6 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
         if (!user.isAdmin()) {
             // 这个里面走的是 不是管理员 (is_admin = 0),只能获取自己创建的角色列表
             // 相当于如果走了这个分支,就会多一条限制,查询出来的记录就会少一些
-
             query.lambda().eq(SysRole::getCreateUserId, rolePageParam.getUserId());
         }
         IPage<SysRole> page = new Page<>();

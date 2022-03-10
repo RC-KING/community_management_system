@@ -7,6 +7,8 @@ import com.jdd.community_management_system.pojo.sys_role.service.SysRoleService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+;
+
 /**
  * 角色 服务实现类
  *
@@ -15,6 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
+public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper,SysRole > implements SysRoleService {
 
 }

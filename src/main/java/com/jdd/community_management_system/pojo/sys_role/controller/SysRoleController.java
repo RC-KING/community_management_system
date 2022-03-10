@@ -1,18 +1,21 @@
 package com.jdd.community_management_system.pojo.sys_role.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.jdd.community_management_system.pojo.sys_role.entity.SysRole;
 import com.jdd.community_management_system.pojo.sys_role.service.impl.SysRoleServiceImpl;
 import com.jdd.community_management_system.pojo.sys_user.entity.SysUser;
+import com.jdd.community_management_system.pojo.sys_user_role.service.SysUserRoleService;
 import com.jdd.community_management_system.utils.dataUtils.ResultUtils;
 import com.jdd.community_management_system.utils.dataUtils.ResultVo;
+import com.jdd.community_management_system.utils.dataUtils.RolePageParam;
 import com.jdd.community_management_system.utils.log.annotation.SysLog;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <p>
@@ -27,6 +30,10 @@ import java.util.List;
 public class SysRoleController {
     @Autowired
     SysRoleServiceImpl sysRoleService;
+
+    @Autowired
+    SysUserRoleService sysUserRoleService;
+
 
     @SysLog("新增角色")
     @PostMapping
@@ -71,16 +78,17 @@ public class SysRoleController {
         }
     }
 
-    @SysLog("查询所有角色")
-    @GetMapping
-    @ApiOperation("查询所有角色")
-    public ResultVo getAllSysRole(){
-        List<SysRole> list = sysRoleService.list();
-        if(list.size()!=0){
-            return ResultUtils.success("获取所有角色成功!",list);
-        }else {
-            return ResultUtils.error("获取所有角色失败!",list);
-        }
+    @ApiOperation(value="查询角色列表")
+    @PostMapping("/list")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="name",value="角色名称"),
+            @ApiImplicitParam(name="userId",value="当前登录用户id",required = true),
+            @ApiImplicitParam(name="currentPage",value="当前页",required = true),
+            @ApiImplicitParam(name="pageSize",value="页容量",required = true)
+    })
+    public ResultVo list(@RequestBody RolePageParam rolePageParam){
+        IPage<SysRole> roleList = sysUserRoleService.roleList(rolePageParam);
+        return ResultUtils.success("查询成功!",roleList);
     }
 }
 
