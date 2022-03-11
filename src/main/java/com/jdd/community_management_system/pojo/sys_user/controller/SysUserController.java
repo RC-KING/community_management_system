@@ -3,6 +3,8 @@ package com.jdd.community_management_system.pojo.sys_user.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.jdd.community_management_system.config.security.exception.CustomerAuthenticationException;
+import com.jdd.community_management_system.pojo.department.entity.Department;
+import com.jdd.community_management_system.pojo.department.service.DepartmentService;
 import com.jdd.community_management_system.pojo.sys_user.entity.SysUser;
 import com.jdd.community_management_system.pojo.sys_user.service.impl.SysUserServiceImpl;
 import com.jdd.community_management_system.utils.dataUtils.ResultUtils;
@@ -240,6 +242,10 @@ public class SysUserController {
   }
 
 
+  @Autowired
+  DepartmentService departmentService;
+
+
   // 这样的路径传参格式,前端传入参数的时候需要注意,不能使用普通的get请求,会报错
   @SysLog(value = "根据部门Id获取用户列表")
   @ApiOperation(value = "根据部门Id获取用户列表")
@@ -250,6 +256,18 @@ public class SysUserController {
                                 @PathVariable(value = "pageSize") Long pageSize){
     IPage<SysUser> tablesList = sysUserService.getUserList(currentPage,pageSize,deptId);
     System.out.println(tablesList.getTotal());
+    List<SysUser> records = tablesList.getRecords();
+    // 冗余字段的填充
+    for (SysUser record : records) {
+      Department department = departmentService.getBaseMapper().selectById(record.getDeptId());
+      record.setDeptName(department.getName());
+      //TODO:等这几个创建出来了就可以完善了
+      // record.getClassId();
+      // record.getClubId();
+      // record.getCollegeId();
+      // record.getMajorId();
+    }
+
     return ResultUtils.success("查询成功!",tablesList);
   }
 

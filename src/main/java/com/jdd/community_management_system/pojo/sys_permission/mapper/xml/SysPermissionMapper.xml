@@ -4,7 +4,7 @@
     <select id="getPermissionListByUserId" parameterType="java.lang.Long" resultType="com.jdd.community_management_system.pojo.sys_permission.entity.SysPermission">
         select distinct p.id,
                         p.parent_id,
-                        p.parent_label,
+                        p.parent_name,
                         p.name,
                         p.label,
                         p.code,

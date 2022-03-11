@@ -38,7 +38,7 @@ public class SysPermission implements Serializable {
     private Long parentId;
 
     @ApiModelProperty(value = "父权限名称(冗余字段)")
-    private String parentLabel;
+    private String parentName;
 
     @ApiModelProperty(value = "权限名称")
     private String label;

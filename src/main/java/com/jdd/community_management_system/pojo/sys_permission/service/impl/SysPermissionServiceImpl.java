@@ -37,6 +37,16 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     QueryWrapper<SysPermission> query = new QueryWrapper<>();
     query.lambda().orderByAsc(SysPermission::getOrderNum);
     List<SysPermission> list = this.baseMapper.selectList(query);
+    // 添加ParentName字段
+    for (SysPermission sysPermission : list) {
+      SysPermission r = this.baseMapper.selectById(sysPermission.getParentId());
+      // 如果是顶级菜单,则没有parentId对应的实体
+      if (r!=null){
+        String parentName = r.getLabel();
+        sysPermission.setParentName(parentName);
+      }
+    }
+
     // 生成树数据
     return MakeMenuTree.makeTree(list, 0L);
   }

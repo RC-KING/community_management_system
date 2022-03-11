@@ -134,7 +134,7 @@ public class SysPermissionController {
         }
     }
 
-    @SysLog("查询所有资源--去除按钮级别的树形资源数据")
+    @SysLog("新增资源前,选择上级资源--去除按钮级别的树形资源数据")
     @GetMapping("/getParentPermissionTree")
     @ApiOperation("查询所有资源--去除按钮级别的树形资源数据")
     public ResultVo getParentPermissionTree(){
