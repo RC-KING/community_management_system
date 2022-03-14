@@ -59,7 +59,7 @@ public class SysUserRoleController {
             @ApiImplicitParam(name = "currentPage", value = "当前页", required = true),
             @ApiImplicitParam(name = "pageSize", value = "页容量", required = true)
     })
-    @GetMapping("/getRoleListForAssign")
+    @PostMapping("/getRoleListForAssign")
     public ResultVo getRoleListForAssign(@RequestBody RolePageParam param) {
         IPage<SysRole> roleList = sysUserRoleService.roleList(param);
         return ResultUtils.success("查询成功!", roleList);
