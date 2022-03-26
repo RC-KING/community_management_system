@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jdd.community_management_system.pojo.club.entity.Club;
 import com.jdd.community_management_system.pojo.club.service.ClubService;
-import com.jdd.community_management_system.utils.dataUtils.ClubPageParam;
+import com.jdd.community_management_system.utils.dataUtils.PageParam;
 import com.jdd.community_management_system.utils.dataUtils.ResultUtils;
 import com.jdd.community_management_system.utils.dataUtils.ResultVo;
 import io.swagger.annotations.ApiOperation;
@@ -67,11 +67,11 @@ public class ClubController {
 
     @ApiOperation(value="查询社团列表")
     @PostMapping("/list")
-    public ResultVo list(@RequestBody ClubPageParam clubPageParam){
+    public ResultVo list(@RequestBody PageParam clubPageParam){
         QueryWrapper<Club> query = new QueryWrapper<>();
         // 根据角色名称(name)筛选查询
-        if (StringUtils.isNotEmpty(clubPageParam.getClubName())) {
-            query.lambda().like(Club::getName, clubPageParam.getClubName());
+        if (StringUtils.isNotEmpty(clubPageParam.getSearchKeyWord())) {
+            query.lambda().like(Club::getName, clubPageParam.getSearchKeyWord());
         }
         IPage<Club> page = new Page<>();
         page.setCurrent(clubPageParam.getCurrentPage());

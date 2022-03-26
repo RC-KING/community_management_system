@@ -25,7 +25,7 @@ class CodeGeneratorApplicationTests {
         // ******************* //
         String author = "金大大";
         String database = "jdd_college_club_system";
-        String tableName = "t_club"; // 需要每次输入正确的表名,这个是关键
+        String tableName = "t_club_presence"; // 需要每次输入正确的表名,这个是关键
         String outputDir= "com.jdd.community_management_system.pojo";// 所有实体生成的地方
         // ==============================================================
         String tableNameWithoutPrefix = tableName;
